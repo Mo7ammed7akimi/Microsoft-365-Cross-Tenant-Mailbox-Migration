@@ -276,7 +276,16 @@ Keep a copy of the exact CSV used for each batch, with the batch name and date.
 
 ## Step 8: Run a pilot batch (target tenant)
 
-Confirm the endpoint name and target delivery domain first.
+### Option 1: Portal
+
+1. Exchange admin center (target) > **Migration > Batch > Add migration batch**.
+2. Select **Migration to Exchange Online** and choose the cross-tenant migration type.
+3. Select the endpoint `CrossTenant-Source`.
+4. Upload `users.csv`.
+5. Set the target delivery domain, notifications and start option. Choose **manual start** for the pilot.
+6. Review and create the batch, then select it and click **Start**.
+
+### Option 2: PowerShell (target)
 
 ```powershell
 $BatchName = "CrossTenant-Pilot-2026-10-15"
@@ -284,7 +293,8 @@ $EndpointName = "CrossTenant-Source"
 $TargetDeliveryDomain = "targettenant.onmicrosoft.com"
 $CsvPath = "C:\Migration\users.csv"
 
-New-MigrationBatch -Name $BatchName -SourceEndpoint $EndpointName -CSVData ([System.IO.File]::ReadAllBytes($CsvPath)) -TargetDeliveryDomain $TargetDeliveryDomain
+New-MigrationBatch -Name $BatchName -SourceEndpoint $EndpointName `
+    -CSVData ([System.IO.File]::ReadAllBytes($CsvPath)) -TargetDeliveryDomain $TargetDeliveryDomain
 ```
 
 This creates the batch without starting it. Inspect it:
@@ -294,22 +304,26 @@ Get-MigrationBatch -Identity $BatchName | Format-List *
 Get-MigrationUser -BatchId $BatchName | Get-MigrationUserStatistics
 ```
 
-When approved, start it:
+Start it when approved:
 
 ```powershell
 Start-MigrationBatch -Identity $BatchName
 ```
 
-Monitor progress:
+Microsoft also documents `-AutoStart` on `New-MigrationBatch`. Prefer create, inspect, then start for the first production use.
+
+### Monitor
 
 ```powershell
 Get-MigrationBatch -Identity $BatchName | Format-List Identity,Status,TotalCount,State
 Get-MigrationUser -BatchId $BatchName
 Get-MigrationUserStatistics -Identity user@targetdomain.com -IncludeReport | Format-List *
+Get-MoveRequest -Flags "CrossTenant"
 ```
 
-Use the reports to fix root causes. Do not retry repeatedly without fixing the error.
+**Portal:** Exchange admin center > **Migration > Batch** > select the batch to see status per user and download the report.
 
+Use the reports to fix root causes. Do not retry repeatedly without fixing the error.
 ---
 
 ## Step 9: Production batches
