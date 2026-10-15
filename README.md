@@ -7,6 +7,34 @@ A step-by-step runbook for moving Exchange Online mailboxes from one Microsoft 3
 
 ---
 
+## Table of contents
+
+1. [Read this first](#read-this-first)
+2. [How it works](#how-it-works)
+3. [Glossary](#glossary)
+4. [What is and is not migrated](#what-is-and-is-not-migrated)
+5. [Step 1: Plan and check prerequisites](#step-1-plan-and-check-prerequisites)
+6. [Step 2: Install modules and connect](#step-2-install-modules-and-connect)
+7. [Step 3: Export the source inventory](#step-3-export-the-source-inventory)
+8. [Step 4: Check for holds](#step-4-check-for-holds)
+9. [Step 5: Prepare the target tenant](#step-5-prepare-the-target-tenant)
+10. [Step 6: Prepare the source tenant](#step-6-prepare-the-source-tenant)
+11. [Step 7: Prepare target MailUser objects](#step-7-prepare-target-mailuser-objects)
+12. [Step 8: Assign licences](#step-8-assign-licences)
+13. [Step 9: Validate before moving](#step-9-validate-before-moving)
+14. [Step 10: Create the migration CSV](#step-10-create-the-migration-csv)
+15. [Step 11: Run a pilot batch](#step-11-run-a-pilot-batch)
+16. [Step 12: Production batches and cutover](#step-12-production-batches-and-cutover)
+17. [Step 13: Post-migration validation](#step-13-post-migration-validation)
+18. [Step 14: Rollback and recovery](#step-14-rollback-and-recovery)
+19. [Step 15: Cleanup](#step-15-cleanup)
+20. [User communication template](#user-communication-template)
+21. [Troubleshooting](#troubleshooting)
+22. [FAQ](#faq)
+23. [References](#references)
+
+---
+
 ## Read this first
 
 - This guide covers **native Exchange Online cross-tenant mailbox moves**. It does not cover Microsoft Entra cross-tenant synchronisation.
