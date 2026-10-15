@@ -105,13 +105,14 @@ Disconnect-ExchangeOnline -Confirm:$false
 
 1. Sign in to https://entra.microsoft.com using the **target** tenant.
 2. Go to **App registrations > New registration**.
-3. Select **Accounts in any organizational directory** (multitenant).
-4. Set the Web redirect URI to `https://office.com` and register.
-5. Copy the **Application (client) ID**.
-6. Go to **API permissions > Add a permission > APIs my organization uses > Office 365 Exchange Online > Application permissions > Mailbox > Mailbox.Migration**.
-7. Create a **client secret**. Copy its value immediately, store it securely and note the expiry date.
-8. Grant admin consent in the target tenant and confirm it completed.
-9. Send the source admin this consent URL (replace every placeholder):
+3. Name the app, for example `CrossTenantMailboxMigration`.
+4. Under **Supported account types**, select **Multiple Entra ID tenants**.
+6. Set the Web redirect URI to `https://office.com` and register.
+7. Copy the **Application (client) ID**.
+8. Go to **API permissions > Add a permission > APIs my organization uses > Office 365 Exchange Online > Application permissions > Mailbox > Mailbox.Migration**.
+9. Create a **client secret**. Copy its value immediately, store it securely and note the expiry date.
+10. Grant admin consent in the target tenant and confirm it completed.
+11. Send the source admin this consent URL (replace every placeholder):
 
 ```
 https://login.microsoftonline.com/SOURCE_TENANT.onmicrosoft.com/adminconsent?client_id=APP_CLIENT_ID&redirect_uri=https://office.com
@@ -161,11 +162,22 @@ Open the consent URL from Step 3A as a source tenant admin and accept. Verify un
 
 ### 4B. Create the scope group (source PowerShell)
 
-Create a mail-enabled security group containing only approved migrating users:
+The group must be **mail-enabled** and a **security** group. It must contain only approved migrating users.
+
+#### Option 1: Portal
+
+Exchange admin center > **Recipients > Groups > Add a group** > **Mail-enabled security** > name it `CrossTenant-Migration-Scope` > add the members.
+
+#### Option 2: PowerShell (source)
 
 ```powershell
 New-DistributionGroup -Name "CrossTenant-Migration-Scope" -Type Security
 Add-DistributionGroupMember -Identity "CrossTenant-Migration-Scope" -Member user@sourcedomain.com
+
+# Bulk add from a CSV with a column named UserPrincipalName
+Import-Csv C:\Migration\pilot-users.csv | ForEach-Object {
+    Add-DistributionGroupMember -Identity "CrossTenant-Migration-Scope" -Member $_.UserPrincipalName
+}
 
 # Check membership
 Get-DistributionGroupMember -Identity "CrossTenant-Migration-Scope"
