@@ -103,6 +103,11 @@ Before proceeding with any migration steps, you must confirm the following:
 
 *   **`Get-AcceptedDomain` MUST return all expected custom domains and the default `*.onmicrosoft.com` routing domain.** The `DomainType` for all active migration domains should be `Authoritative`.
 
+*   **Admin Contacts MUST be identified and recorded.**
+    > **How to check:**
+    > 1. Log into the Microsoft 365 Admin Center for the tenant.
+    > 2. Go to **Settings** > **Org settings** > **Organization profile** > **Organization information**.
+
 Disconnect when finished:
 
 ```powershell
