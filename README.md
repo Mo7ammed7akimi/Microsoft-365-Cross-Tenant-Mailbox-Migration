@@ -139,9 +139,34 @@ Disconnect-ExchangeOnline -Confirm:$false
 4. Under **Supported account types**, select **Multiple Entra ID tenants**.
 6. Set the Web redirect URI to `https://office.com` and register.
 7. Copy the **Application (client) ID**.
-8. Go to **API permissions > Add a permission > APIs my organization uses > Office 365 Exchange Online > Application permissions > Mailbox > Mailbox.Migration**.
-9. Create a **client secret**. Copy its value immediately, store it securely and note the expiry date.
+8. Go to **API permissions > Add a permission > APIs my organization uses > Office 365 Exchange Online > Application permissions > Mailbox > Mailbox.Migration**. Click **Add permissions**
+9. Go to **Certificates & secrets** → **Client secrets** → **New client secret**. Enter a description (e.g., `SecretValue`), choose an expiry, and click **Add**. Copy the secret **Value** immediately (it is shown only once), store it securely, and note the expiry date.
+
 10. Grant admin consent in the target tenant and confirm it completed.
+
+There are two ways to do this — either works. The **API permissions** blade is the most direct.
+
+### Option 1 — from the App registration (recommended)
+
+1. In <https://entra.microsoft.com> (target tenant), go to **Identity** → **Applications** → **App registrations** → **All applications**.
+2. Open your app (`CrossTenantMailboxMigration`).
+3. Select **API permissions**.
+4. Click **Grant admin consent for \<target tenant name\>**.
+5. In the confirmation window, click **Yes**.
+6. Click **Refresh** and verify the **Status** column shows a green check **"Granted for \<tenant\>"** next to `Mailbox.Migration`.
+
+### Option 2 — from Enterprise applications
+
+1. Go to **Identity** → **Applications** → **Enterprise applications** → **All applications**.
+2. Open your app.
+3. Select **Permissions** (under **Security**).
+4. Click **Grant admin consent for \<target tenant name\>**.
+5. In the confirmation window, click **Yes** (or **Accept**).
+6. Click **Refresh** and verify the permission now shows as **Granted**.
+
+> **Note:** The app appears under **Enterprise applications** only after it has been consented to at least once (or after a token is issued). If you don't see it there yet, use **Option 1** first.
+
+
 11. Send the source admin this consent URL (replace every placeholder):
 
 ```
