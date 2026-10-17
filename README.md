@@ -133,20 +133,35 @@ Disconnect-ExchangeOnline -Confirm:$false
 
 ### 3A. Register the migration app
 
-1. Sign in to https://entra.microsoft.com using the **target** tenant.
-2. Go to **App registrations > New registration**.
+1. Sign in to <https://entra.microsoft.com> using the **target** tenant.
+2. Go to **Identity** → **Applications** → **App registrations** → **New registration**.
 3. Name the app, for example `CrossTenantMailboxMigration`.
-4. Under **Supported account types**, select **Multiple Entra ID tenants**.
-6. Set the Web redirect URI to `https://office.com` and register.
-7. Copy the **Application (client) ID**.
-8. Go to **API permissions > Add a permission > APIs my organization uses > Office 365 Exchange Online > Application permissions > Mailbox > Mailbox.Migration**. Click **Add permissions**
-9. Go to **Certificates & secrets** → **Client secrets** → **New client secret**. Enter a description (e.g., `SecretValue`), choose an expiry, and click **Add**. Copy the secret **Value** immediately (it is shown only once), store it securely, and note the expiry date.
+4. Under **Supported account types**, select **Accounts in any organizational directory (Any Microsoft Entra ID tenant — Multitenant)**.
+5. Under **Redirect URI**, choose platform **Web** and enter `https://office.com`, then click **Register**.
+6. On the app **Overview** page, copy the **Application (client) ID** and store it securely.
+7. Go to **API permissions** → **Add a permission** → **APIs my organization uses** → **Office 365 Exchange Online** → **Application permissions** → **Mailbox** → **Mailbox.Migration**. Click **Add permissions**.
+8. Go to **Certificates & secrets** → **Client secrets** → **New client secret**. Enter a description (e.g., `SecretValue`), choose an expiry, and click **Add**. Copy the secret **Value** immediately (it is shown only once), store it securely, and note the expiry date.
+9. Grant admin consent in the **target** tenant (see Option 1 or Option 2 below) and confirm it completed.
+10. Send the **source** tenant admin the consent URL below (replace every placeholder):
 
-10. Grant admin consent in the target tenant and confirm it completed.
+```
+https://login.microsoftonline.com/SOURCE_TENANT.onmicrosoft.com/adminconsent?client_id=APP_CLIENT_ID&redirect_uri=https://office.com
+```
+
+
+- `SOURCE_TENANT.onmicrosoft.com` → source tenant's verified domain
+- `APP_CLIENT_ID` → Application (client) ID from step 6
+- `redirect_uri` → must match the registered `https://office.com`
+
+> **Important:** The source admin must accept consent **before** the migration endpoint is created.
+
+---
+
+### Grant admin consent in the target tenant
 
 There are two ways to do this — either works. The **API permissions** blade is the most direct.
 
-### Option 1 — from the App registration (recommended)
+#### Option 1 — from the App registration (recommended)
 
 1. In <https://entra.microsoft.com> (target tenant), go to **Identity** → **Applications** → **App registrations** → **All applications**.
 2. Open your app (`CrossTenantMailboxMigration`).
@@ -155,7 +170,7 @@ There are two ways to do this — either works. The **API permissions** blade is
 5. In the confirmation window, click **Yes**.
 6. Click **Refresh** and verify the **Status** column shows a green check **"Granted for \<tenant\>"** next to `Mailbox.Migration`.
 
-### Option 2 — from Enterprise applications
+#### Option 2 — from Enterprise applications
 
 1. Go to **Identity** → **Applications** → **Enterprise applications** → **All applications**.
 2. Open your app.
@@ -165,15 +180,6 @@ There are two ways to do this — either works. The **API permissions** blade is
 6. Click **Refresh** and verify the permission now shows as **Granted**.
 
 > **Note:** The app appears under **Enterprise applications** only after it has been consented to at least once (or after a token is issued). If you don't see it there yet, use **Option 1** first.
-
-
-11. Send the source admin this consent URL (replace every placeholder):
-
-```
-https://login.microsoftonline.com/SOURCE_TENANT.onmicrosoft.com/adminconsent?client_id=APP_CLIENT_ID&redirect_uri=https://office.com
-```
-
-10. The source admin must accept consent **before** the endpoint is created.
 
 ### 3B. Create the migration endpoint (target PowerShell)
 
