@@ -181,11 +181,7 @@ Open the consent URL from Step 3A as a source tenant admin and accept. Verify un
 
 The group must be **mail-enabled** and a **security** group. It must contain only approved migrating users.
 
-# Cross-Tenant Migration Scope Group Setup
-
 > **Path:** Exchange admin center > Recipients > Groups > Add a group > Mail-enabled security
-
-## Steps
 
 1. **Name it:** `CrossTenant-Migration-Scope`
 2. **Add Owners:** (the Global Admin)
