@@ -91,6 +91,18 @@ Get-OrganizationConfig | Format-List Name,Guid,IsDehydrated
 Get-AcceptedDomain | Format-Table Name,DomainName,DomainType
 ```
 
+### ⚠️ Verification Criteria (What to look for)
+
+Before proceeding with any migration steps, you must confirm the following:
+
+*   **`IsDehydrated` MUST equal `False`.**
+    > **Note:** If it returns `True`, Exchange Online is not provisioned in this tenant. Stop the migration, assign an Exchange Online license, and wait for Microsoft to provision the mailboxes.
+
+*   **`Guid` MUST match the Tenant ID listed in the Microsoft Entra Admin Center.**
+    > **Note:** If the tenant is dehydrated (`True`), the GUID will be a temporary placeholder and will not match Entra.
+
+*   **`Get-AcceptedDomain` MUST return all expected custom domains and the default `*.onmicrosoft.com` routing domain.** The `DomainType` for all active migration domains should be `Authoritative`.
+
 Disconnect when finished:
 
 ```powershell
