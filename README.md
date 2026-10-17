@@ -182,7 +182,8 @@ Open the consent URL from Step 3A as a source tenant admin and accept. Verify un
 The group must be **mail-enabled** and a **security** group. It must contain only approved migrating users.
 
 > **Path:** Exchange admin center > Recipients > Groups > Add a group > Mail-enabled security
-> **OR Path:** Microsoft 365 admin center > Teams & groups > Active teams & groups > Security groups > Add a mail-enabled security group
+> 
+> **OR:** Microsoft 365 admin center > Teams & groups > Active teams & groups > Security groups > Add a mail-enabled security group
 
 1. **Name it:** `CrossTenant-Migration-Scope`
 2. **Add Owners:** (the Global Admin)
