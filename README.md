@@ -90,6 +90,13 @@ Connect-ExchangeOnline -UserPrincipalName admin@targettenant.onmicrosoft.com
 Connect-ExchangeOnline -UserPrincipalName admin@sourcetenant.onmicrosoft.com
 ```
 
+> **Note:** Make sure the admin accounts in both the target and source tenants have the Global Administrator role assigned. To verify:
+
+1. Go to **Microsoft 365 admin center > Active users**
+2. Select the admin user
+3. Click the ... (more actions) menu > **Manage roles** 
+4. In **Manage admin roles**, confirm the user has **Admin center access** enabled (i.e., an admin role such as Global Administrator is assigned)
+
 Verify the tenant before every change:
 
 ```powershell
