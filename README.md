@@ -177,7 +177,7 @@ Review existing relationships first. Do not overwrite an unrelated one.
 
 Open the consent URL from Step 3A as a source tenant admin and accept. Verify under **Entra admin center > Enterprise applications**.
 
-### 4B. Create the scope group (source PowerShell)
+### 4B. Create the scope group (source Portal)
 
 The group must be **mail-enabled** and a **security** group. It must contain only approved migrating users.
 
