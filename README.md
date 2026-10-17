@@ -136,7 +136,7 @@ Disconnect-ExchangeOnline -Confirm:$false
 1. Sign in to <https://entra.microsoft.com> using the **target** tenant.
 2. Go to **Identity** → **Applications** → **App registrations** → **New registration**.
 3. Name the app, for example `CrossTenantMailboxMigration`.
-4. Under **Supported account types**, select **Accounts in any organizational directory (Any Microsoft Entra ID tenant — Multitenant)**.
+4. Under **Supported account types**, select **Multiple Entra ID tenants**.
 5. Under **Redirect URI**, choose platform **Web** and enter `https://office.com`, then click **Register**.
 6. On the app **Overview** page, copy the **Application (client) ID** and store it securely.
 7. Go to **API permissions** → **Add a permission** → **APIs my organization uses** → **Office 365 Exchange Online** → **Application permissions** → **Mailbox** → **Mailbox.Migration**. Click **Add permissions**.
