@@ -55,11 +55,17 @@ A step-by-step runbook for moving Exchange Online mailboxes from one Microsoft 3
 
 ## Step 2: Install the module and connect
 
-Install from the official PowerShell Gallery (skip if already installed):
+Install/update from the official PowerShell Gallery (skip if already installed/updated):
 
 ```powershell
 Install-Module ExchangeOnlineManagement -Scope CurrentUser
 Update-Module ExchangeOnlineManagement
+```
+
+After installing, import the Exchange Online module in PowerShell:
+
+```powershell
+Import-Module ExchangeOnlineManagement
 ```
 
 Check the execution policy:
