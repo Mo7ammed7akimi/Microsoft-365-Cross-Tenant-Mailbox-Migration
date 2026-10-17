@@ -199,6 +199,8 @@ If this fails, check source-tenant consent, app ID, secret value and expiry, and
 
 ### 3C. Create the organisation relationship (target PowerShell)
 
+Run the following command on target PowerShell after puttinhg, the **Application ID**, **Client Secret Value**, and **Migration Endpoint Name**.
+
 ```powershell
 $SourceTenantId = "SOURCE_TENANT_GUID"
 $OrgRelName = "CrossTenant-Source"
@@ -236,6 +238,8 @@ The group must be **mail-enabled** and a **security** group. It must contain onl
 5. **Review and create group**
 
 ### 4C. Create the organisation relationship (source PowerShell)
+
+Run the following command in **Exchange Online PowerShell connected to the source tenant**, after the source admin has accepted the admin-consent URL and the migration endpoint exists in the target tenant.
 
 ```powershell
 $TargetTenantId = "TARGET_TENANT_GUID"
