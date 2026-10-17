@@ -181,24 +181,17 @@ Open the consent URL from Step 3A as a source tenant admin and accept. Verify un
 
 The group must be **mail-enabled** and a **security** group. It must contain only approved migrating users.
 
-#### Option 1: Portal
+# Cross-Tenant Migration Scope Group Setup
 
-Exchange admin center > **Recipients > Groups > Add a group** > **Mail-enabled security** > name it `CrossTenant-Migration-Scope` > add the members.
+> **Path:** Exchange admin center > Recipients > Groups > Add a group > Mail-enabled security
 
-#### Option 2: PowerShell (source)
+## Steps
 
-```powershell
-New-DistributionGroup -Name "CrossTenant-Migration-Scope" -Type Security
-Add-DistributionGroupMember -Identity "CrossTenant-Migration-Scope" -Member user@sourcedomain.com
-
-# Bulk add from a CSV with a column named UserPrincipalName
-Import-Csv C:\Migration\pilot-users.csv | ForEach-Object {
-    Add-DistributionGroupMember -Identity "CrossTenant-Migration-Scope" -Member $_.UserPrincipalName
-}
-
-# Check membership
-Get-DistributionGroupMember -Identity "CrossTenant-Migration-Scope"
-```
+1. **Name it:** `CrossTenant-Migration-Scope`
+2. **Add Owners:** (the Global Admin)
+3. **Add the members:** (migrating users)
+4. **Add Group email address:** `CrossTenant-Migration`
+5. **Review and create group**
 
 ### 4C. Create the organisation relationship (source PowerShell)
 
